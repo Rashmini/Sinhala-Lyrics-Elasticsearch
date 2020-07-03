@@ -1,0 +1,12 @@
+curl --location --request POST 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "query": {
+        "match" : {
+            "lyrics": {
+                "query": "අම්මා",
+                "boost": 2
+            }
+        }
+    }
+}'

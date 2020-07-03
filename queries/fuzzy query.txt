@@ -1,0 +1,17 @@
+curl --location --request POST 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "query": {
+        "fuzzy": {
+            "artist": {
+                "value": "මිල්ටන්",
+                "fuzziness": "AUTO",
+                "max_expansions": 50,
+                "prefix_length": 0,
+                "transpositions": true,
+                "rewrite": "constant_score"
+            }
+        }
+    }
+}
+'

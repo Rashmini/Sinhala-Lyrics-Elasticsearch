@@ -1,0 +1,11 @@
+curl --location --request POST 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "query":{
+      "range":{
+         "views":{
+            "gte":20000
+         }
+      }
+   }
+}'

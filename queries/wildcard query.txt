@@ -1,0 +1,13 @@
+curl --location --request POST 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "query": {
+        "wildcard": {
+             "artist": {
+                "value": "රූකා*",
+                "boost": 1.0,
+                "rewrite": "constant_score"
+            }
+        }
+    }
+}'

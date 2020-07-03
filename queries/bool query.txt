@@ -1,0 +1,22 @@
+curl --location --request POST 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "query": {
+    "bool": {
+      "must": {
+        "bool" : { 
+          "must": { "match": { "lyrics": "අම්මා"}},
+          "should": [
+            { "match": { "artist": "ඉන්ද්‍රානි පෙරේරා" }},
+            { "match": { "artist": "වික්ටර් රත්නායක" }} 
+          ],
+          "minimum_should_match" : 1,
+          "boost" : 1.0         
+        }
+      },
+      "must_not": { "match": {"genre": "ළමා ගීත" }}
+    }
+  },
+  "_source": ["title", "artist" , "lyrics", "genre"]
+}
+'

@@ -1,0 +1,130 @@
+curl --location --request PUT 'http://localhost:9200/song_lyrics' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "custom_analyzer": {
+          "tokenizer": "whitespace",
+          "filter": [ "custom_stop_words_filter", "custom_synonym"  ]
+        }
+      },
+      "filter": {
+        "custom_stop_words_filter": {
+          "type": "stop",
+          "ignore_case": true,
+          "stopwords": [ "හා", "ද", "විසින්", "සදහා", "ඉහත", "පසුව",  "කර", "බව","එම"]
+        },
+
+         "custom_synonym" : {
+                        "type" : "synonym",
+                        "synonyms" : [
+                            "ගුවන,ආකාසය,අහස",
+                            "අම්මා,මව,මව්,අම්මේ,මව්නි,මෑණිය,මෑණි",
+                            "හතරකින්,සතරකින්",
+                            "සාගරේ,මූදු,සාගර,සයුර,සයුරෙහි,රළ,මුහුද,මුහුදේ,සයුරේ,සමුදුර,සමුදුරේ,සාගරය,සාගරයේ,සිඳු",
+                            "ලංකාව,ලක්,ශ්‍රී ලංකා,ශ්‍රී ලංකාව,ලංකා,ලංකාව",
+                            "පරණ,පරන,පැරණි"
+                        ]
+         }
+      }
+    }
+  },
+
+  "mappings": {
+    "properties": {
+
+     "title": {
+     "type": "text",
+        "fields": {
+          "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+          },
+          "analyzed": {
+            "type": "text",
+            "analyzer": "custom_analyzer"
+          } 
+        }
+      },
+
+      "artist": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+          },
+          "analyzed": {
+            "type": "text",
+            "analyzer": "custom_analyzer"
+          }   
+        }
+      },
+
+      "lyricist": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+          },
+          "analyzed": {
+            "type": "text",
+            "analyzer": "custom_analyzer"
+          } 
+        }
+      },
+
+      "musicComposer": {
+      "type": "text",
+          "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            },
+            "analyzed": {
+              "type": "text",
+              "analyzer": "custom_analyzer"
+            } 
+          }
+      },
+
+      "genre": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+          },
+          "analyzed": {
+            "type": "text",
+            "analyzer": "custom_analyzer"
+          }
+        } 
+      },
+
+      "views": {
+        "type": "long"
+      },
+
+      "shares": {
+      "type": "long"
+      },
+
+      "lyrics": {
+       "type": "text",
+        "fields": {
+          "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+          },
+          "analyzed": {
+            "type": "text",
+            "analyzer": "custom_analyzer"
+          }
+        }   
+      }
+    }
+  } 
+}'

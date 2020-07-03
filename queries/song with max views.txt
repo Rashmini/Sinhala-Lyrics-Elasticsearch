@@ -1,0 +1,14 @@
+curl --location --request GET 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "_source": ["title","lyrics","views"],
+    "size": 1,
+    "sort": [
+    {
+      "views": {
+        "order": "desc"
+      }
+    }
+    ]
+}
+'

@@ -1,0 +1,9 @@
+curl --location --request GET 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "query": {
+        "match_phrase" : {
+            "lyrics" : "දිය උල්පත අම්මා"
+        }
+    }
+}'

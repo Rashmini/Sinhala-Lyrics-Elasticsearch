@@ -1,0 +1,10 @@
+curl --location --request GET 'http://localhost:9200/song_lyrics/_search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "query":{
+      "multi_match": {
+      "query": "හා",
+      "fields": ["lyrics.analyzed"]
+    }
+   }
+}'

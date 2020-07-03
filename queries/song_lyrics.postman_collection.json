@@ -1,0 +1,462 @@
+{
+	"info": {
+		"_postman_id": "e4859391-84d3-4e0e-aa33-54a9bb350081",
+		"name": "song_lyrics",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create index",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"settings\": {\r\n    \"analysis\": {\r\n      \"analyzer\": {\r\n        \"custom_analyzer\": {\r\n          \"tokenizer\": \"whitespace\",\r\n          \"filter\": [ \"custom_stop_words_filter\", \"custom_synonym\"  ]\r\n        }\r\n      },\r\n      \"filter\": {\r\n        \"custom_stop_words_filter\": {\r\n          \"type\": \"stop\",\r\n          \"ignore_case\": true,\r\n          \"stopwords\": [ \"හා\", \"ද\", \"විසින්\", \"සදහා\", \"ඉහත\", \"පසුව\",  \"කර\", \"බව\",\"එම\"]\r\n        },\r\n\r\n         \"custom_synonym\" : {\r\n                        \"type\" : \"synonym\",\r\n                        \"synonyms\" : [\r\n                            \"ගුවන,ආකාසය,අහස\",\r\n                            \"අම්මා,මව,මව්,අම්මේ,මව්නි,මෑණිය,මෑණි\",\r\n                            \"හතරකින්,සතරකින්\",\r\n                            \"සාගරේ,මූදු,සාගර,සයුර,සයුරෙහි,රළ,මුහුද,මුහුදේ,සයුරේ,සමුදුර,සමුදුරේ,සාගරය,සාගරයේ,සිඳු\",\r\n                            \"ලංකාව,ලක්,ශ්‍රී ලංකා,ශ්‍රී ලංකාව,ලංකා,ලංකාව\",\r\n                            \"පරණ,පරන,පැරණි\"\r\n                        ]\r\n         }\r\n      }\r\n    }\r\n  },\r\n\r\n  \"mappings\": {\r\n    \"properties\": {\r\n\r\n     \"title\": {\r\n     \"type\": \"text\",\r\n        \"fields\": {\r\n          \"keyword\": {\r\n              \"type\": \"keyword\",\r\n              \"ignore_above\": 256\r\n          },\r\n          \"analyzed\": {\r\n            \"type\": \"text\",\r\n            \"analyzer\": \"custom_analyzer\"\r\n          } \r\n        }\r\n      },\r\n\r\n      \"artist\": {\r\n        \"type\": \"text\",\r\n        \"fields\": {\r\n          \"keyword\": {\r\n              \"type\": \"keyword\",\r\n              \"ignore_above\": 256\r\n          },\r\n          \"analyzed\": {\r\n            \"type\": \"text\",\r\n            \"analyzer\": \"custom_analyzer\"\r\n          }   \r\n        }\r\n      },\r\n\r\n      \"lyricist\": {\r\n        \"type\": \"text\",\r\n        \"fields\": {\r\n          \"keyword\": {\r\n              \"type\": \"keyword\",\r\n              \"ignore_above\": 256\r\n          },\r\n          \"analyzed\": {\r\n            \"type\": \"text\",\r\n            \"analyzer\": \"custom_analyzer\"\r\n          } \r\n        }\r\n      },\r\n\r\n      \"musicComposer\": {\r\n      \"type\": \"text\",\r\n          \"fields\": {\r\n            \"keyword\": {\r\n                \"type\": \"keyword\",\r\n                \"ignore_above\": 256\r\n            },\r\n            \"analyzed\": {\r\n              \"type\": \"text\",\r\n              \"analyzer\": \"custom_analyzer\"\r\n            } \r\n          }\r\n      },\r\n\r\n      \"genre\": {\r\n        \"type\": \"text\",\r\n        \"fields\": {\r\n          \"keyword\": {\r\n              \"type\": \"keyword\",\r\n              \"ignore_above\": 256\r\n          },\r\n          \"analyzed\": {\r\n            \"type\": \"text\",\r\n            \"analyzer\": \"custom_analyzer\"\r\n          }\r\n        } \r\n      },\r\n\r\n      \"views\": {\r\n        \"type\": \"long\"\r\n      },\r\n\r\n      \"shares\": {\r\n      \"type\": \"long\"\r\n      },\r\n\r\n      \"lyrics\": {\r\n       \"type\": \"text\",\r\n        \"fields\": {\r\n          \"keyword\": {\r\n              \"type\": \"keyword\",\r\n              \"ignore_above\": 256\r\n          },\r\n          \"analyzed\": {\r\n            \"type\": \"text\",\r\n            \"analyzer\": \"custom_analyzer\"\r\n          }\r\n        }   \r\n      }\r\n    }\r\n  } \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check indices",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/_cat/indices?v",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"indices"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert documents",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"index\":{}}\r\n{\"title\":\"ආලේ\",\"artist\":[\"ඩැඩී\"],\"lyricist\":[\"ඩැඩී\"],\"musicComposer\":[\"ඩැඩී\"],\"genre\":[\"වත්මන් ගීත\",\"කණ්ඩායම් ගීත\",\"ඉල්ලීම\"],\"views\":11962,\"shares\":0,\"lyrics\":\"කළු පාට හමට දෙන්නෙ නැද්ද හාදුවක්..\\nඅද ලස්සන උනෙ කොහොමද වෙනදට ටිකක්..\\nමනමාල කමට නෙමෙයි කලේ විහිළුවක්..\\nහදේ ගැඹුරේ සැගවී තිබෙනා..\\nකල් යන්න යන්න පපුවට දැනෙනවා බයක්..\\nලඟ ඉන්නා විට සිහින දකිමි කෝටියක්..\\nහිත රිද්දන විට උනනව කඳුළුත් ටිකක්..\\nහදේ ගැඹුරේ සැගවී තිබෙනා ඒ..\\nආලේ....නෑ.නේ...ඕනේ...\\nආලේ....නෑ.නේ...ඕනේ...\\nඅපි ආදරේ කරනවා දැන් දිගුකාලයක්..\\nබැරි උනාතාම අරන්දෙන්න මාලයක්..\\nතරහින් බලන්න එපා නැතුව ප්‍රේමයක්\\nහදේ ගැඹුරේ සඟවා නොතියා\\nඔය හිතෙන හිතෙන දේ කරන්න බෑ මටත්\\nලඟ ඇත්තෙ ටිකයි ඉතිරි කරපු කාලයක්\\nඅපි පවුල් වෙමුද අරගෙන පොඩි සාදයක්\\nහදේ ගැඹුරේ සඟවා නොතියා..ඒ\\nහාදු උනත් මුව ගාව නැතත්\\nකිසිදිනකදි නෑ තැවුනේ...\\nකාසි ගොඩක් මං ගාව නැතත්..\\nනැතුවද අගනේ ඔබටම බැදි මාගේ\\n\"}\r\n{\"index\":{}}\r\n{\"title\":\"ආදරයේ වේදනාව\",\"artist\":[\"නන්ද මලනි\"],\"lyricist\":[\"කිත්සිරි නිමල් ශාන්ත\"],\"musicComposer\":[\"රොහාන වීරසිංහ\"],\"genre\":[\"පැරණි පොප්ස්\"],\"views\":1807,\"shares\":1,\"lyrics\":\"ආදරයේ වේදනාව හදට දැනුනු යම් දවසක\\nහුදකලාව නොතැවී යලි\\nඑන්න මා සොයා….. එන්න මා සොයා\\nදේදුනු පැහැයෙන් දිදුලන ආදර විජිතය හැරදා\\nරැජින පලා ගිය මොහොතක\\nනොතැවී යලි ඈ සිහිකර\\nඑන්න මා සොයා… එන්න මා සොයා\\nජීවිතයට මිහිර ලතැවුල ඔබ තුරුලට ලංවූදා\\nනොතැවී හිද තනියහනේ\\nමතක සුලං රොදක එතී\\nඑන්න මා සොයා… එන්න මා සොයා\\n\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_bulk",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_bulk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check for stop words filter",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"query\":{\r\n      \"multi_match\": {\r\n      \"query\": \"හා\",\r\n      \"fields\": [\"lyrics.analyzed\"]\r\n    }\r\n   }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check for synonym filter",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"query\":{\r\n      \"multi_match\": {\r\n      \"query\": \"මව්\",\r\n      \"fields\": [\"title.analyzed\"]\r\n    }\r\n   }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search songs of an artist",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"match\" : {\r\n            \"artist\" : \"ඇන්ජලින් ගුණතිලක\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search by a phrase",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"match_phrase\" : {\r\n            \"lyrics\" : \"දිය උල්පත අම්මා\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bool query to search in various fields",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": {\r\n        \"bool\" : { \r\n          \"must\": { \"match\": { \"lyrics\": \"අම්මා\"}},\r\n          \"should\": [\r\n            { \"match\": { \"artist\": \"ඉන්ද්‍රානි පෙරේරා\" }},\r\n            { \"match\": { \"artist\": \"වික්ටර් රත්නායක\" }} \r\n          ],\r\n          \"minimum_should_match\" : 1,\r\n          \"boost\" : 1.0         \r\n        }\r\n      },\r\n      \"must_not\": { \"match\": {\"genre\": \"ළමා ගීත\" }}\r\n    }\r\n  },\r\n  \"_source\": [\"title\", \"artist\" , \"lyrics\", \"genre\"]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "range query to find songs with views more than 20000",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"query\":{\r\n      \"range\":{\r\n         \"views\":{\r\n            \"gte\":20000\r\n         }\r\n      }\r\n   }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aggregation to find no. of songs of artists",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"size\": 0,\r\n  \"aggs\": {\r\n    \"group_by_artist\": {\r\n      \"terms\": {\r\n        \"field\": \"artist.keyword\"\r\n      }\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search?size=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search the song with max views",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_source\": [\"title\",\"lyrics\",\"views\"],\r\n    \"size\": 1,\r\n    \"sort\": [\r\n    {\r\n      \"views\": {\r\n        \"order\": \"desc\"\r\n      }\r\n    }\r\n    ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "wildcard query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"wildcard\": {\r\n             \"artist\": {\r\n                \"value\": \"රූකා*\",\r\n                \"boost\": 1.0,\r\n                \"rewrite\": \"constant_score\"\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "boost query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"match\" : {\r\n            \"lyrics\": {\r\n                \"query\": \"අම්මා\",\r\n                \"boost\": 2\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fuzzy query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"fuzzy\": {\r\n            \"artist\": {\r\n                \"value\": \"මිල්ටන්\",\r\n                \"fuzziness\": \"AUTO\",\r\n                \"max_expansions\": 50,\r\n                \"prefix_length\": 0,\r\n                \"transpositions\": true,\r\n                \"rewrite\": \"constant_score\"\r\n            }\r\n        }\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top 10 songs of an artist",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"multi_match\" : {\r\n            \"query\" : \"රූකාන්ත ගුණතිලක\",\r\n            \"fields\" : [ \"artist\", \"musicComposer\"],\r\n            \"type\": \"phrase\",\r\n            \"slop\": 1\r\n        }\r\n    },\r\n    \"from\": 0,  \r\n    \"size\": 10, \r\n    \"sort\" : [\r\n        { \"views\" : {\"order\" : \"desc\"}}\r\n    ],\r\n    \"_source\": [\"artist\", \"lyrics\", \"views\"]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/song_lyrics/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"song_lyrics",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
